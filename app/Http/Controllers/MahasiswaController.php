@@ -26,11 +26,18 @@ class MahasiswaController extends Controller
 
     public function store(Request $request)
     {
-        Mahasiswa::create($request->all());
+        $request->validate([
+        'nim' => 'required|unique:mahasiswa,nim',
+        'nama' => 'required',
+        'jenis_kelamin' => 'required', // <-- Tambahkan baris keamanan ini
+        'jurusan' => 'required'
+    ]);
 
-        return redirect()
-            ->route('mahasiswa.index')
-            ->with('success','Data berhasil ditambah');
+    \App\Models\Mahasiswa::create($request->all());
+
+    return redirect()
+        ->route('mahasiswa.index')
+        ->with('success', 'Data Mahasiswa berhasil ditambahkan');
     }
 
     public function edit(Mahasiswa $mahasiswa)

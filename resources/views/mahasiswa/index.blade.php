@@ -1,102 +1,56 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<div class="p-6">
+@section('title', 'Tambah Mahasiswa')
 
-    <div class="flex justify-between items-center mb-6">
-
-        <h1 class="text-3xl font-bold">
-            Data Mahasiswa
-        </h1>
-
-        <a href="{{ route('mahasiswa.create') }}"
-           class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-            + Tambah Mahasiswa
+@section('content')
+    <div class="mb-8">
+        <a href="{{ route('mahasiswa.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition flex items-center gap-2 mb-2">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar
         </a>
-
+        <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Tambah Mahasiswa Baru</h2>
+        <p class="text-sm text-slate-500">Masukkan data diri mahasiswa dengan benar.</p>
     </div>
 
-    <form method="GET" class="mb-4">
-        <input
-            type="text"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Cari NIM atau Nama..."
-            class="border rounded-lg px-4 py-2 w-64">
+    <div class="max-w-2xl bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+        <form action="{{ route('mahasiswa.store') }}" method="POST" class="space-y-5">
+            @csrf
 
-        <button class="bg-gray-700 text-white px-4 py-2 rounded-lg">
-            Cari
-        </button>
-    </form>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Nomor Induk Mahasiswa (NIM)</label>
+                <input type="text" name="nim" placeholder="Contoh: 220102034" required
+                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
+            </div>
 
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
+                <input type="text" name="nama" placeholder="Contoh: Ahmad Fauzi" required
+                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
+            </div>
 
-    <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Kelamin</label>
+                <select name="jenis_kelamin" required
+                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
+                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
+            </div>
 
-        <table class="w-full">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Jurusan / Program Studi</label>
+                <input type="text" name="jurusan" placeholder="Contoh: Teknik Informatika" required
+                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
+            </div>
 
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="p-3">NIM</th>
-                    <th class="p-3">Nama</th>
-                    <th class="p-3">Email</th>
-                    <th class="p-3">Aksi</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            @forelse($mahasiswa as $mhs)
-                <tr class="border-t">
-                    <td class="p-3">{{ $mhs->nim }}</td>
-                    <td class="p-3">{{ $mhs->nama }}</td>
-                    <td class="p-3">{{ $mhs->email }}</td>
-
-                    <td class="p-3">
-
-                        <a href="{{ route('mahasiswa.edit',$mhs->id) }}"
-                           class="bg-yellow-500 text-white px-3 py-1 rounded">
-                            Edit
-                        </a>
-
-                        <form action="{{ route('mahasiswa.destroy',$mhs->id) }}"
-                              method="POST"
-                              class="inline">
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button
-                                onclick="return confirm('Yakin hapus data?')"
-                                class="bg-red-600 text-white px-3 py-1 rounded">
-
-                                Hapus
-
-                            </button>
-
-                        </form>
-
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="4" class="text-center p-5">
-                        Data belum tersedia
-                    </td>
-                </tr>
-            @endforelse
-            </tbody>
-
-        </table>
-
+            <div class="pt-4 border-t border-slate-100 flex justify-end gap-3">
+                <button type="reset" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition">
+                    Reset
+                </button>
+                <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl text-sm shadow-md transition">
+                    <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Data
+                </button>
+            </div>
+        </form>
     </div>
-
-    <div class="mt-5">
-        {{ $mahasiswa->links() }}
-    </div>
-
-</div>
-
-</x-app-layout>
+@endsection

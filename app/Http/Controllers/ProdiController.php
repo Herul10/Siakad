@@ -7,59 +7,57 @@ use Illuminate\Http\Request;
 
 class ProdiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+
+        $prodi = Prodi::when($search, function ($query) use ($search) {
+            $query->where('kode_prodi', 'like', "%$search%")
+                  ->orWhere('nama_prodi', 'like', "%$search%");
+        })->paginate(10);
+
+        return view('prodi.index', compact('prodi'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('prodi.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_prodi' => 'required',
+            'nama_prodi' => 'required',
+        ]);
+
+        Prodi::create($request->all());
+
+        return redirect()
+            ->route('prodi.index')
+            ->with('success', 'Data Prodi berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Prodi $prodi)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Prodi $prodi)
     {
-        //
+        return view('prodi.edit', compact('prodi'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Prodi $prodi)
     {
-        //
+        $prodi->update($request->all());
+
+        return redirect()
+            ->route('prodi.index')
+            ->with('success', 'Data Prodi berhasil diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Prodi $prodi)
     {
-        //
+        $prodi->delete();
+
+        return redirect()
+            ->route('prodi.index')
+            ->with('success', 'Data Prodi berhasil dihapus');
     }
 }

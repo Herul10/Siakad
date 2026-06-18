@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dosen extends Model
 {
-    //
+    protected $fillable = [
+        'nidn',
+        'nama',
+        'email',
+        'user_id'
+    ];
 }

@@ -11,14 +11,20 @@ use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\PembayaranController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('dashboard');
+Route::middleware(['auth'])->group(function () {
 
-Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    Route::resource('mahasiswa', MahasiswaController::class);
+    Route::resource('dosen', DosenController::class);
+    Route::resource('fakultas', FakultasController::class);
+    Route::resource('prodi', ProdiController::class);
+    Route::resource('matakuliah', MataKuliahController::class);
+    Route::resource('pembayaran', PembayaranController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
@@ -28,17 +34,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
-});
-
-Route::middleware(['auth','role:admin'])->group(function(){
-
-    Route::resource('mahasiswa', MahasiswaController::class);
-    Route::resource('dosen', DosenController::class);
-    Route::resource('fakultas', FakultasController::class);
-    Route::resource('prodi', ProdiController::class);
-    Route::resource('mata-kuliah', MataKuliahController::class);
-    Route::resource('pembayaran', PembayaranController::class);
-
 });
 
 require __DIR__.'/auth.php';
