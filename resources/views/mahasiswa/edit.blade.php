@@ -8,14 +8,17 @@
             Edit Mahasiswa
         </h2>
 
-        <form action="{{ route('mahasiswa.update',$mahasiswa->id) }}"
+        <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}"
               method="POST">
 
             @csrf
             @method('PUT')
 
             <div class="mb-4">
-                <label>NIM</label>
+                <label class="block mb-2 font-medium">
+                    NIM
+                </label>
+
                 <input type="text"
                        name="nim"
                        value="{{ $mahasiswa->nim }}"
@@ -23,7 +26,10 @@
             </div>
 
             <div class="mb-4">
-                <label>Nama</label>
+                <label class="block mb-2 font-medium">
+                    Nama
+                </label>
+
                 <input type="text"
                        name="nama"
                        value="{{ $mahasiswa->nama }}"
@@ -31,22 +37,50 @@
             </div>
 
             <div class="mb-4">
-                <label>Email</label>
-                <input type="email"
-                       name="email"
-                       value="{{ $mahasiswa->email }}"
-                       class="w-full border rounded p-2">
+                <label class="block mb-2 font-medium">
+                    Jenis Kelamin
+                </label>
+
+                <select name="jenis_kelamin"
+                        class="w-full border rounded p-2">
+
+                    <option value="Laki-laki"
+                        {{ $mahasiswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>
+                        Laki-laki
+                    </option>
+
+                    <option value="Perempuan"
+                        {{ $mahasiswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
+                        Perempuan
+                    </option>
+
+                </select>
             </div>
 
             <div class="mb-4">
-                <label>Alamat</label>
-                <textarea name="alamat"
-                          class="w-full border rounded p-2">{{ $mahasiswa->alamat }}</textarea>
+                <label class="block mb-2 font-medium">
+                    Jurusan
+                </label>
+
+                <input type="text"
+                       name="jurusan"
+                       value="{{ $mahasiswa->jurusan }}"
+                       class="w-full border rounded p-2">
             </div>
 
-            <button class="bg-green-600 text-white px-4 py-2 rounded">
-                Update
-            </button>
+            <div class="flex gap-3">
+
+                <a href="{{ route('mahasiswa.index') }}"
+                   class="bg-gray-500 text-white px-4 py-2 rounded">
+                    Kembali
+                </a>
+
+                <button type="submit"
+                        class="bg-green-600 text-white px-4 py-2 rounded">
+                    Update
+                </button>
+
+            </div>
 
         </form>
 

@@ -68,7 +68,7 @@
 
     <div class="bg-gradient-to-r from-indigo-900 to-slate-900 rounded-2xl shadow-md p-8 text-white">
         <h2 class="text-2xl font-bold mb-2 tracking-tight">
-            Selamat Datang di SIAKAD System
+            Selamat Datang di SIAKAD Systems
         </h2>
         <p class="text-indigo-200 text-sm max-w-2xl leading-relaxed">
             Sistem Informasi Akademik membantu Anda dalam pengelolaan data mahasiswa,

@@ -1,56 +1,131 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Mahasiswa')
+@section('title', 'Data Mahasiswa')
 
 @section('content')
-    <div class="mb-8">
-        <a href="{{ route('mahasiswa.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition flex items-center gap-2 mb-2">
-            <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar
-        </a>
-        <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Tambah Mahasiswa Baru</h2>
-        <p class="text-sm text-slate-500">Masukkan data diri mahasiswa dengan benar.</p>
+
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800">
+            Data Mahasiswa
+        </h2>
+        <p class="text-slate-500">
+            Daftar seluruh mahasiswa yang terdaftar.
+        </p>
     </div>
 
-    <div class="max-w-2xl bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
-        <form action="{{ route('mahasiswa.store') }}" method="POST" class="space-y-5">
-            @csrf
+    <a href="{{ route('mahasiswa.create') }}"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow">
+        + Tambah Mahasiswa
+    </a>
+</div>
 
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Nomor Induk Mahasiswa (NIM)</label>
-                <input type="text" name="nim" placeholder="Contoh: 220102034" required
-                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
-            </div>
+@if(session('success'))
+<div class="mb-4 p-4 bg-green-100 text-green-700 rounded-xl">
+    {{ session('success') }}
+</div>
+@endif
 
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
-                <input type="text" name="nama" placeholder="Contoh: Ahmad Fauzi" required
-                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
-            </div>
+<!-- Search -->
+<form method="GET" action="{{ route('mahasiswa.index') }}" class="mb-6">
+    <input
+        type="text"
+        name="search"
+        value="{{ request('search') }}"
+        placeholder="Cari NIM atau Nama..."
+        class="w-full md:w-80 px-4 py-2 border rounded-xl">
+</form>
 
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Kelamin</label>
-                <select name="jenis_kelamin" required
-                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
-                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                </select>
-            </div>
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow border overflow-hidden">
 
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Jurusan / Program Studi</label>
-                <input type="text" name="jurusan" placeholder="Contoh: Teknik Informatika" required
-                    class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition shadow-sm">
-            </div>
+    <table class="w-full">
 
-            <div class="pt-4 border-t border-slate-100 flex justify-end gap-3">
-                <button type="reset" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition">
-                    Reset
-                </button>
-                <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl text-sm shadow-md transition">
-                    <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan Data
-                </button>
-            </div>
-        </form>
-    </div>
+        <thead class="bg-slate-100">
+            <tr>
+                <th class="p-3 text-left">No</th>
+                <th class="p-3 text-left">NIM</th>
+                <th class="p-3 text-left">Nama</th>
+                <th class="p-3 text-left">Jenis Kelamin</th>
+                <th class="p-3 text-left">Jurusan</th>
+                <th class="p-3 text-center">Aksi</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @forelse($mahasiswa as $mhs)
+
+            <tr class="border-t">
+
+                <td class="p-3">
+                    {{ $loop->iteration }}
+                </td>
+
+                <td class="p-3">
+                    {{ $mhs->nim }}
+                </td>
+
+                <td class="p-3">
+                    {{ $mhs->nama }}
+                </td>
+
+                <td class="p-3">
+                    {{ $mhs->jenis_kelamin }}
+                </td>
+
+                <td class="p-3">
+                    {{ $mhs->jurusan }}
+                </td>
+
+                <td class="p-3 text-center">
+
+                    <a href="{{ route('mahasiswa.edit', $mhs->id) }}"
+                        class="px-3 py-1 bg-yellow-500 text-white rounded-lg">
+                        Edit
+                    </a>
+
+                    <form
+                        action="{{ route('mahasiswa.destroy', $mhs->id) }}"
+                        method="POST"
+                        class="inline">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button
+                            onclick="return confirm('Yakin ingin menghapus data ini?')"
+                            class="px-3 py-1 bg-red-600 text-white rounded-lg">
+
+                            Hapus
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            @empty
+
+            <tr>
+                <td colspan="6" class="p-5 text-center text-gray-500">
+                    Belum ada data mahasiswa.
+                </td>
+            </tr>
+
+            @endforelse
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- Pagination -->
+<div class="mt-6">
+    {{ $mahasiswa->links() }}
+</div>
+
 @endsection

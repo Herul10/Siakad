@@ -114,7 +114,7 @@
 
         <!-- FOOTER -->
         <div class="p-4 border-t border-indigo-900 text-center text-xs text-indigo-300">
-            © {{ date('Y') }} SIAKAD System
+            © {{ date('Y') }} SIAKAD Systems
         </div>
 
     </aside>
