@@ -27,16 +27,16 @@ class MataKuliahController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_mk'  => 'required',
-            'nama_mk'  => 'required',
-            'sks'      => 'required',
+            'kode_mk' => 'required',
+            'nama_mk' => 'required',
+            'sks' => 'required',
             'semester' => 'required',
         ]);
 
         MataKuliah::create([
-            'kode_mk'  => $request->kode_mk,
-            'nama_mk'  => $request->nama_mk,
-            'sks'      => $request->sks,
+            'kode_mk' => $request->kode_mk,
+            'nama_mk' => $request->nama_mk,
+            'sks' => $request->sks,
             'semester' => $request->semester,
         ]);
 
@@ -45,28 +45,24 @@ class MataKuliahController extends Controller
             ->with('success', 'Data Mata Kuliah berhasil ditambahkan');
     }
 
-    public function edit($id)
+    public function edit(MataKuliah $matakuliah)
     {
-        $mataKuliah = MataKuliah::findOrFail($id);
-
-        return view('matakuliah.edit', compact('mataKuliah'));
+        return view('matakuliah.edit', compact('matakuliah'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, MataKuliah $matakuliah)
     {
         $request->validate([
-            'kode_mk'  => 'required',
-            'nama_mk'  => 'required',
-            'sks'      => 'required',
+            'kode_mk' => 'required',
+            'nama_mk' => 'required',
+            'sks' => 'required',
             'semester' => 'required',
         ]);
 
-        $mataKuliah = MataKuliah::findOrFail($id);
-
-        $mataKuliah->update([
-            'kode_mk'  => $request->kode_mk,
-            'nama_mk'  => $request->nama_mk,
-            'sks'      => $request->sks,
+        $matakuliah->update([
+            'kode_mk' => $request->kode_mk,
+            'nama_mk' => $request->nama_mk,
+            'sks' => $request->sks,
             'semester' => $request->semester,
         ]);
 
@@ -75,11 +71,9 @@ class MataKuliahController extends Controller
             ->with('success', 'Data Mata Kuliah berhasil diubah');
     }
 
-    public function destroy($id)
+    public function destroy(MataKuliah $matakuliah)
     {
-        $mataKuliah = MataKuliah::findOrFail($id);
-
-        $mataKuliah->delete();
+        $matakuliah->delete();
 
         return redirect()
             ->route('matakuliah.index')
