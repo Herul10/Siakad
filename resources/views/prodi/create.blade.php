@@ -17,12 +17,24 @@
 
             <div class="mb-4">
                 <label class="block mb-2">
+                    Fakultas ID
+                </label>
+
+                <input
+                    type="number"
+                    name="fakultas_id"
+                    class="w-full border rounded-lg p-3"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">
                     Kode Program Studi
                 </label>
 
                 <input
                     type="text"
-                    name="kode_prodi"
+                    name="kode"
                     class="w-full border rounded-lg p-3"
                     required>
             </div>

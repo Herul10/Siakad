@@ -40,7 +40,7 @@
 
             <tr class="border-t">
                 <td class="p-3">{{ $loop->iteration }}</td>
-                <td class="p-3">{{ $item->kode_prodi }}</td>
+                <td class="p-3">{{ $item->kode }}</td>
                 <td class="p-3">{{ $item->nama_prodi }}</td>
 
                 <td class="p-3 text-center">

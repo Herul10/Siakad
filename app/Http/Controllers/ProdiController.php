@@ -12,8 +12,8 @@ class ProdiController extends Controller
         $search = $request->search;
 
         $prodi = Prodi::when($search, function ($query) use ($search) {
-            $query->where('kode_prodi', 'like', "%$search%")
-                  ->orWhere('nama_prodi', 'like', "%$search%");
+            $query->where('kode', 'like', "%{$search}%")
+                  ->orWhere('nama_prodi', 'like', "%{$search}%");
         })->paginate(10);
 
         return view('prodi.index', compact('prodi'));
@@ -27,15 +27,20 @@ class ProdiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_prodi' => 'required',
+            'fakultas_id' => 'required',
+            'kode' => 'required',
             'nama_prodi' => 'required',
         ]);
 
-        Prodi::create($request->all());
+        Prodi::create([
+            'fakultas_id' => $request->fakultas_id,
+            'kode' => $request->kode,
+            'nama_prodi' => $request->nama_prodi,
+        ]);
 
         return redirect()
             ->route('prodi.index')
-            ->with('success', 'Data Prodi berhasil ditambahkan');
+            ->with('success', 'Data Program Studi berhasil ditambahkan');
     }
 
     public function edit(Prodi $prodi)
@@ -45,11 +50,21 @@ class ProdiController extends Controller
 
     public function update(Request $request, Prodi $prodi)
     {
-        $prodi->update($request->all());
+        $request->validate([
+            'fakultas_id' => 'required',
+            'kode' => 'required',
+            'nama_prodi' => 'required',
+        ]);
+
+        $prodi->update([
+            'fakultas_id' => $request->fakultas_id,
+            'kode' => $request->kode,
+            'nama_prodi' => $request->nama_prodi,
+        ]);
 
         return redirect()
             ->route('prodi.index')
-            ->with('success', 'Data Prodi berhasil diubah');
+            ->with('success', 'Data Program Studi berhasil diubah');
     }
 
     public function destroy(Prodi $prodi)
@@ -58,6 +73,6 @@ class ProdiController extends Controller
 
         return redirect()
             ->route('prodi.index')
-            ->with('success', 'Data Prodi berhasil dihapus');
+            ->with('success', 'Data Program Studi berhasil dihapus');
     }
 }

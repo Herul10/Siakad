@@ -1,41 +1,59 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<div class="max-w-3xl mx-auto py-6">
+@section('title', 'Edit Program Studi')
 
-    <div class="bg-white shadow rounded-lg p-6">
+@section('content')
 
-        <h2 class="text-2xl font-bold mb-6">
-            Edit Program Studi
-        </h2>
+<div class="max-w-3xl">
 
-        <form action="{{ route('prodi.update',$prodi->id) }}"
-              method="POST">
+    <h1 class="text-3xl font-bold mb-6">
+        Edit Program Studi
+    </h1>
 
+    <div class="bg-white p-6 rounded-xl shadow">
+
+        <form action="{{ route('prodi.update', $prodi->id) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="mb-4">
-                <label>Kode Prodi</label>
+            <input type="hidden" name="fakultas_id" value="{{ $prodi->fakultas_id }}">
 
-                <input type="text"
-                       name="kode_prodi"
-                       value="{{ $prodi->kode_prodi }}"
-                       class="w-full border rounded-lg px-4 py-2">
+            <div class="mb-4">
+                <label class="block mb-2">
+                    Kode Program Studi
+                </label>
+
+                <input
+                    type="text"
+                    name="kode"
+                    value="{{ $prodi->kode }}"
+                    class="w-full border rounded-lg p-3"
+                    required>
             </div>
 
             <div class="mb-4">
-                <label>Nama Program Studi</label>
+                <label class="block mb-2">
+                    Nama Program Studi
+                </label>
 
-                <input type="text"
-                       name="nama_prodi"
-                       value="{{ $prodi->nama_prodi }}"
-                       class="w-full border rounded-lg px-4 py-2">
+                <input
+                    type="text"
+                    name="nama_prodi"
+                    value="{{ $prodi->nama_prodi }}"
+                    class="w-full border rounded-lg p-3"
+                    required>
             </div>
 
             <button
-                class="bg-green-600 text-white px-5 py-2 rounded-lg">
+                type="submit"
+                class="bg-yellow-500 text-white px-5 py-3 rounded-lg">
                 Update
             </button>
+
+            <a href="{{ route('prodi.index') }}"
+               class="bg-gray-500 text-white px-5 py-3 rounded-lg">
+                Kembali
+            </a>
 
         </form>
 
@@ -43,4 +61,4 @@
 
 </div>
 
-</x-app-layout>
+@endsection

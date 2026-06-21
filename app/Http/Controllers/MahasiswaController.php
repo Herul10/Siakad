@@ -29,8 +29,9 @@ class MahasiswaController extends Controller
         $request->validate([
         'nim' => 'required|unique:mahasiswa,nim',
         'nama' => 'required',
-        'jenis_kelamin' => 'required', // <-- Tambahkan baris keamanan ini
-        'jurusan' => 'required'
+        'jenis_kelamin' => 'required',
+        'email' => 'nullable|email',
+        'alamat' => 'nullable'
     ]);
 
     \App\Models\Mahasiswa::create($request->all());

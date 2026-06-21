@@ -47,7 +47,7 @@
                 <th class="p-3 text-left">NIM</th>
                 <th class="p-3 text-left">Nama</th>
                 <th class="p-3 text-left">Jenis Kelamin</th>
-                <th class="p-3 text-left">Jurusan</th>
+                <th class="p-3 text-left">Alamat</th>
                 <th class="p-3 text-center">Aksi</th>
             </tr>
         </thead>
@@ -75,7 +75,7 @@
                 </td>
 
                 <td class="p-3">
-                    {{ $mhs->jurusan }}
+                    {{ $mhs->alamat }}
                 </td>
 
                 <td class="p-3 text-center">

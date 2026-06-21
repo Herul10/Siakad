@@ -1,85 +1,71 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<div class="max-w-3xl mx-auto p-6">
+@section('title', 'Edit Mahasiswa')
 
-    <div class="bg-white p-6 rounded-lg shadow">
+@section('content')
 
-        <h2 class="text-2xl font-bold mb-5">
-            Edit Mahasiswa
-        </h2>
+<div class="max-w-3xl">
 
-        <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}"
-              method="POST">
+    <h1 class="text-3xl font-bold mb-6">
+        Edit Mahasiswa
+    </h1>
 
+    <div class="bg-white p-6 rounded-xl shadow">
+
+        <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="mb-4">
-                <label class="block mb-2 font-medium">
+                <label class="block mb-2">
                     NIM
                 </label>
 
-                <input type="text"
-                       name="nim"
-                       value="{{ $mahasiswa->nim }}"
-                       class="w-full border rounded p-2">
+                <input
+                    type="text"
+                    name="nim"
+                    value="{{ old('nim', $mahasiswa->nim) }}"
+                    class="w-full border rounded-lg p-3"
+                    required>
             </div>
 
             <div class="mb-4">
-                <label class="block mb-2 font-medium">
-                    Nama
+                <label class="block mb-2">
+                    Nama Mahasiswa
                 </label>
 
-                <input type="text"
-                       name="nama"
-                       value="{{ $mahasiswa->nama }}"
-                       class="w-full border rounded p-2">
+                <input
+                    type="text"
+                    name="nama"
+                    value="{{ old('nama', $mahasiswa->nama) }}"
+                    class="w-full border rounded-lg p-3"
+                    required>
             </div>
 
             <div class="mb-4">
-                <label class="block mb-2 font-medium">
-                    Jenis Kelamin
+                <label class="block mb-2">
+                    Email
                 </label>
 
-                <select name="jenis_kelamin"
-                        class="w-full border rounded p-2">
-
-                    <option value="Laki-laki"
-                        {{ $mahasiswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>
-                        Laki-laki
-                    </option>
-
-                    <option value="Perempuan"
-                        {{ $mahasiswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
-                        Perempuan
-                    </option>
-
-                </select>
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ old('email', $mahasiswa->email) }}"
+                    class="w-full border rounded-lg p-3"
+                    required>
             </div>
 
-            <div class="mb-4">
-                <label class="block mb-2 font-medium">
-                    Jurusan
-                </label>
-
-                <input type="text"
-                       name="jurusan"
-                       value="{{ $mahasiswa->jurusan }}"
-                       class="w-full border rounded p-2">
-            </div>
-
-            <div class="flex gap-3">
-
-                <a href="{{ route('mahasiswa.index') }}"
-                   class="bg-gray-500 text-white px-4 py-2 rounded">
-                    Kembali
-                </a>
-
-                <button type="submit"
-                        class="bg-green-600 text-white px-4 py-2 rounded">
+            <div class="flex gap-2">
+                <button
+                    type="submit"
+                    class="bg-yellow-500 text-white px-5 py-3 rounded-lg">
                     Update
                 </button>
 
+                <a href="{{ route('mahasiswa.index') }}"
+                   class="bg-gray-500 text-white px-5 py-3 rounded-lg">
+                    Kembali
+                </a>
             </div>
 
         </form>
@@ -88,4 +74,4 @@
 
 </div>
 
-</x-app-layout>
+@endsection
